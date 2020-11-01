@@ -68,7 +68,7 @@ class ViewController: UIViewController {
             let table = MySQL.Table(tableName: "User", connection: con);
           
           
-            if let rows = try table.select(["name"], Where: ["password=SHA1(",pswTxtField.text!,") AND name=",usrTxtField.text!]){
+            if var rows = try table.select(["name"], Where: ["password=SHA1(",pswTxtField.text!,") AND name=",usrTxtField.text!]){
                 if rows.isEmpty {
                     let alert = UIAlertController(title: "Error", message: "Invanid Username/Password", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "Aceptar", style: .default, handler: nil))
@@ -77,14 +77,24 @@ class ViewController: UIViewController {
                 }
  
                 else{
-                    let alert = UIAlertController(title: "Welcome", message: "Bienvenido al sistema", preferredStyle: .alert)
+                    /*
+                    let  select_stmt = try con.prepare("SELECT name from User where name=?")
+                    try select_stmt.exec([usrTxtField.text!])
+                    let res = try select_stmt.query([1])
+                    let result = try res.readRow();
+                    print(result)
+                  */
+                    let username = usrTxtField.text!
+                    let alert = UIAlertController(title: "Welcome", message: "Bienvenido al sistema \(username)", preferredStyle: .alert)
                     alert.addAction(UIAlertAction(title: "Aceptar", style: .default, handler: nil))
                     self.present(alert, animated: true, completion: nil)
                     print(rows)
-                    var name: [String] = ["\(rows)"]
-                    if name.indices.contains(0){
-                        print(name[0])
-                    }
+               
+                  
+                    
+                  
+                    
+                    
                   
                 }
                 
