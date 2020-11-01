@@ -18,7 +18,6 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view, typically from a nib.
         
     }
-
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -40,7 +39,23 @@ class ViewController: UIViewController {
             print(slect_stmt)
           try con.close()
                 */
-    
+            let obj : MySQL.Row = [
+                "oint": Int?(0),
+                "iint8" : Int8(-1),
+                "uint8": UInt8(1),
+                "int16" : Int16(-1),
+                "uint16": UInt16(100),
+                "id":Int(1),
+                "count":UInt?(10),
+                "uint64" : UInt64(19999999999),
+                "int64" : Int64(-19999999999),
+                "ffloat" : Float(1.1),
+                "ddouble" : Double(1.1),
+                //"ddate" : NSDate((dateString: "2015-11-10")),
+                "str" : "test string",
+                //"nsdata" : "test data".dataUsingEncoding(NSUTF8StringEncoding)!,
+                "uint8_array" : [UInt8]("test data uint8 array".utf8),
+                ]
           
             
             
@@ -53,7 +68,7 @@ class ViewController: UIViewController {
             let table = MySQL.Table(tableName: "User", connection: con);
           
           
-            if let rows = try table.select(Where: ["password=SHA1(",pswTxtField.text!,") AND name=",usrTxtField.text!]){
+            if let rows = try table.select(["name"], Where: ["password=SHA1(",pswTxtField.text!,") AND name=",usrTxtField.text!]){
                 if rows.isEmpty {
                     let alert = UIAlertController(title: "Error", message: "Invanid Username/Password", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "Aceptar", style: .default, handler: nil))
@@ -65,9 +80,14 @@ class ViewController: UIViewController {
                     let alert = UIAlertController(title: "Welcome", message: "Bienvenido al sistema", preferredStyle: .alert)
                     alert.addAction(UIAlertAction(title: "Aceptar", style: .default, handler: nil))
                     self.present(alert, animated: true, completion: nil)
-               // print(rows)
-                
+                    print(rows)
+                    var name: [String] = ["\(rows)"]
+                    if name.indices.contains(0){
+                        print(name[0])
+                    }
+                  
                 }
+                
                 
             }
             
